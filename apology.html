@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I'm Sorry</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f5f7fa;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    h2 {
+      margin: 20px 0 40px;
+      text-align: center;
+      color: #333;
+    }
+
+    .btn-group {
+      position: relative;
+      width: 320px; /* gives "NO" room to run */
+      height: 120px;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      user-select: none;
+      position: absolute;
+    }
+
+    #yes {
+      background: #4caf50;
+      color: #fff;
+      left: 0;
+      top: 0;
+      z-index: 2;
+    }
+
+    #no {
+      background: #f44336;
+      color: #fff;
+      right: 0;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <img
+    src="https://media1.tenor.com/m/xIePJvnngpYAAAAC/sad-crying.gif"
+    alt="sad kitty gif"
+  />
+  <h2>对不起 李嘉雯。原谅我好吗？</h2>
+
+  <div class="btn-group">
+    <button id="yes">好</button>
+    <button id="no">滚</button>
+  </div>
+
+  <script>
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+
+    let yesScale = 1;
+    let noScale = 1;
+
+    // 点击 NO：Yes 越来越大，No 越来越小并随机逃跑
+    no.addEventListener("click", () => {
+      yesScale += 0.25; // 放大 Yes
+      noScale = Math.max(0.4, noScale - 0.1); // 缩小 No，但不至于消失
+
+      yes.style.transform = `scale(${yesScale})`;
+      no.style.transform = `scale(${noScale})`;
+
+      // 让 NO 随机飞到按钮区域内的新位置
+      const wrapper = no.parentElement;
+      const maxX = wrapper.clientWidth - no.getBoundingClientRect().width;
+      const maxY = wrapper.clientHeight - no.getBoundingClientRect().height;
+
+      const randX = Math.random() * maxX;
+      const randY = Math.random() * maxY;
+
+      no.style.left = `${randX}px`;
+      no.style.top = `${randY}px`;
+    });
+
+    // 点击 YES：显示感谢
+    yes.addEventListener("click", () => {
+      document.body.innerHTML =
+        '<h1 style="color:#4caf50;text-align:center">门~ 谢谢你原谅我！❤️</h1>';
+    });
+  </script>
+</body>
+</html>
